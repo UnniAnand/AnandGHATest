@@ -52,3 +52,19 @@ jobs:
         run: echo "hello"
       - name: docker tag & push  
         run: docker tag fast_api:satyam shubhambawa98/testlkm:anandunni && docker push shubhambawa98/testlkm:anandunni
+  Buildandpushdocker2:
+    runs-on: ubuntu-latest
+    environment: QA
+    steps:
+      - name: gitclone 
+        run: git clone https://github.com/Shubhambawa98/testenv.git
+      - name: docker installation 
+        run: curl -fsSL https://get.docker.com | sh 
+      - name: docker login 
+        run: docker login -u ${{secrets.DOCKERHUBUSERNAME}} -p ${{secrets.DOCKERHUBPASSWORD}}
+      - name: docker build 
+        run: cd testenv && docker build . -t fast_api:satyam
+      - name: test
+        run: echo "hello"
+      - name: docker tag & push  
+        run: docker tag fast_api:satyam shubhambawa98/testlkm:anandunni && docker push shubhambawa98/testlkm:anandunni
