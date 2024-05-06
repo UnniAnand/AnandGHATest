@@ -31,6 +31,24 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
+  
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+  
+  Buildandpushdocker:
+    runs-on: ubuntu-latest
+    environment: Dev
+    steps:
+      - name: gitclone 
+        run: git clone https://github.com/Shubhambawa98/testenv.git
+      - name: docker installation 
+        run: curl -fsSL https://get.docker.com | sh 
+      - name: docker login 
+        run: docker login -u ${{secrets.DOCKERHUBUSERNAME}} -p ${{secrets.DOCKERHUBPASSWORD}}
+      - name: docker build 
+        run: cd testenv && docker build . -t fast_api:satyam
+      - name: test
+        run: echo "hello"
+      - name: docker tag & push  
+        run: docker tag fast_api:satyam shubhambawa98/testlkm:satyam && docker push shubhambawa98/testlkm:satyam
